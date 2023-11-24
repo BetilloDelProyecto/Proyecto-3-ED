@@ -1,6 +1,7 @@
 package Ciudad;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Ciudad {
     String nomCiudad;
@@ -57,7 +58,8 @@ public class Ciudad {
     
     @Override
     public String toString() {
-        return "Ciudad{" + "nomCiudad=" + nomCiudad + ", soldados=" + soldados + ", misilies=" + misilies + ", nivelTecnologico=" + nivelTecnologico + '}';
+        //return "Ciudad{" + "nomCiudad=" + nomCiudad + ", soldados=" + soldados + ", misilies=" + misilies + ", nivelTecnologico=" + nivelTecnologico + '}';
+        return nomCiudad;
     }
     
     public void imprimir(){
@@ -68,7 +70,17 @@ public class Ciudad {
         }
         System.out.println("\n\n");
     }
-    
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Ciudad) && (toString().equals(obj.toString()));
+    }
+
     //--------------------------------------------GET & SET--------------------------------------------
     
     //--------------------------------------------METHODS--------------------------------------------
@@ -77,5 +89,5 @@ public class Ciudad {
     }
     //--------------------------------------------METHODS--------------------------------------------
 
-    
+
 }

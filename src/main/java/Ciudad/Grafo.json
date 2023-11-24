@@ -17,7 +17,7 @@
                 "Bienes": 0,
                 "Distancia":1800
             }
-            
+
         ]
     },
     {
@@ -96,7 +96,7 @@
                 "Bienes": 65,
                 "Distancia": 100
             }
-            
+
         ]
     },
     {
@@ -116,27 +116,45 @@
                 "Fuerza Militar": 25,
                 "Bienes": 75,
                 "Distancia": 400
+            },
+            {
+                "Ciudad":"Colombia",
+                "Fuerza Militar":5,
+                "Bienes": 0,
+                "Distancia":1800
+            },
+            {
+                "Ciudad": "Alemania",
+                "Fuerza Militar": 9,
+                "Bienes": 41,
+                "Distancia": 1300
             }
         ]
     },
-    { 
-        "Ciudad": "Alemania", 
-        "Soldados": 5000, 
-        "Misiles": 3000, 
-        "Nivel Tecnologico": 6, 
-        "Conexiones": [ 
-            { 
-                "Ciudad": "USA", 
-                "Fuerza Militar": 20, 
-                "Bienes": 100, 
-                "Distancia": 200 
-            }, 
-            { 
-                "Ciudad": "Colombia", 
-                "Fuerza Militar": 15, 
-                "Bienes": 50, 
-                "Distancia": 350 
-            } 
+    {
+        "Ciudad": "Alemania",
+        "Soldados": 5000,
+        "Misiles": 3000,
+        "Nivel Tecnologico": 6,
+        "Conexiones": [
+            {
+                "Ciudad": "USA",
+                "Fuerza Militar": 20,
+                "Bienes": 100,
+                "Distancia": 200
+            },
+            {
+                "Ciudad": "Colombia",
+                "Fuerza Militar": 15,
+                "Bienes": 50,
+                "Distancia": 350
+            },
+            {
+                "Ciudad": "China",
+                "Fuerza Militar": 3,
+                "Bienes": 65,
+                "Distancia": 100
+            }
         ] 
     }
 ]
