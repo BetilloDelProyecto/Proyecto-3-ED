@@ -1,6 +1,6 @@
 package Graphing;
 
-import Ciudad.Ciudad;
+import Ciudad.*;
 import com.mxgraph.layout.*;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
@@ -9,13 +9,11 @@ import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.alg.cycle.HierholzerEulerianCycle;
-import org.jgrapht.alg.interfaces.EulerianCycleAlgorithm;
 import org.jgrapht.alg.interfaces.SpanningTreeAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.alg.spanning.PrimMinimumSpanningTree;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.*;
-import org.jgrapht.alg.interfaces.EulerianCycleAlgorithm;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -85,14 +83,14 @@ public class Grafos {
 
 
     public static void generateImage() throws IOException {
-        JGraphXAdapter<Ciudad, DefaultWeightedEdge> graphAdapter = new JGraphXAdapter<>(g){
-        @Override
-        public String convertValueToString(Object cell) {
-            if (getModel().isEdge(cell)) {
-                return "";  // return empty string for edges
+        JGraphXAdapter<Ciudad, DefaultWeightedEdge> graphAdapter = new JGraphXAdapter<Ciudad, DefaultWeightedEdge>(g){
+            @Override
+            public String convertValueToString(Object cell) {
+                if (getModel().isEdge(cell)) {
+                    return "";  // return empty string for edges
+                }
+                return super.convertValueToString(cell);
             }
-            return super.convertValueToString(cell);
-        }
         };
         if(!GraphDirected){
             // Get the stylesheet of the graph
@@ -236,7 +234,7 @@ public boolean isConnected(){
         for (Ciudad vertex : g.vertexSet()) {
             if (!vertex.equals(target)) {
                 System.out.println("Most efficient path from " + vertex + " to " + target + ":");
-                var camino  = dijkstra.getPath(vertex, target);
+                GraphPath<Ciudad,DefaultWeightedEdge> camino  = dijkstra.getPath(vertex, target);
                 System.out.println(camino);
                 if(camino != null){
                     for(DefaultWeightedEdge edge:  camino.getEdgeList()){
@@ -258,18 +256,57 @@ public boolean isConnected(){
             System.out.println("El grafo es un ciclo euleriano");
             GraphPath<Ciudad,DefaultWeightedEdge> cycle = eulerianCycle.getEulerianCycle(g);
             if(cycle != null){
-                System.out.println(cycle);
+                ArrayList<DefaultWeightedEdge> cycleEdges = new ArrayList<>(cycle.getEdgeList());
+                ArrayList<Tupla> tuplas = new ArrayList<>();
+                for(DefaultWeightedEdge ed :cycleEdges ){
+                    Ciudad c1 = g.getEdgeSource(ed);
+                    Ciudad c2 = g.getEdgeTarget(ed);
+                    tuplas.add(new Tupla(c1.getNomCiudad(),c2.getNomCiudad()));
+                }
+                String res = "[";
+                ordenarTuplas(tuplas);
+                for(Tupla t : tuplas)
+                    res += t.toString() + " , ";
+                res += " ]";
+                System.out.println(res);
                 System.out.println("Fulminado");
                 for(DefaultWeightedEdge edge: cycle.getEdgeList()){
                     g.removeEdge(edge);
                 }
-        }
+            }
         }
         else{
             System.out.println("El grafo no es un ciclo euleriano");
         }
     }
-
+    
+    public void ordenarTuplas(ArrayList<Tupla> tuplas){
+        for (int i = 1; i < tuplas.size()-1; i++) {
+                    Tupla t1 = tuplas.get(i);
+                    Tupla t2 = tuplas.get(i+1);
+                    if(t2.estaCiudad(t1.getCiudad1())){
+                        if(t1.getPos(t1.getCiudad1()) == 0 && t2.getPos(t1.getCiudad1()) == 1){
+                            t1.swap();
+                            t2.swap();
+                        }else if(t1.getPos(t1.getCiudad1()) == 0 && t2.getPos(t1.getCiudad1()) == 0){
+                            t1.swap();
+                        }else if(t1.getPos(t1.getCiudad1()) == 1 && t2.getPos(t1.getCiudad1()) == 1){
+                            t2.swap();
+                        }
+                            
+                    }else if (t2.estaCiudad(t1.getCiudad2())){
+                        if(t1.getPos(t1.getCiudad2()) == 0 && t2.getPos(t1.getCiudad2()) == 1){
+                            t1.swap();
+                            t2.swap();
+                        }else if(t1.getPos(t1.getCiudad2()) == 0 && t2.getPos(t1.getCiudad2()) == 0){
+                            t1.swap();
+                        }else if(t1.getPos(t1.getCiudad2()) == 1 && t2.getPos(t1.getCiudad2()) == 1){
+                            t2.swap();
+                        }
+                    }
+                }
+                tuplas.get(0).swap();
+    }
 
 
 

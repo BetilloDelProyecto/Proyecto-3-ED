@@ -33,9 +33,9 @@ public class Mundo {
     }
     
     
-    public void cargarMundo(){
+    public void cargarMundo(String ruta){
         JSONParser jsonParser = new JSONParser();
-        try(FileReader reader = new FileReader("C:\\Users\\Amerc\\Documents\\TEC\\POO\\Proyecto-3-ED\\src\\main\\java\\Ciudad\\Grafo.json")){
+        try(FileReader reader = new FileReader(ruta)){
             Object obj = jsonParser.parse(reader);
             JSONArray array = (JSONArray) obj;
             for (int i = 0; i < array.size() ; i++) {
@@ -75,5 +75,14 @@ public class Mundo {
         }catch(ParseException e){
             System.out.println("El parseo esta mal");
         }
+    }
+    
+    public Ciudad buscarCiudad(String ciudad){
+        for (int i = 0; i < mundo.size(); i++) {
+            Ciudad get = mundo.get(i);
+            if(get.getNomCiudad().equals(ciudad))
+                return get;
+        }
+        return null;
     }
 }
